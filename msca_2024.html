@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>2024年HORIZON-MSCA博士网络项目</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 40px; }
+    input { margin: 10px; padding: 8px; width: 300px; }
+    button { padding: 10px 20px; margin-left: 10px; }
+    table { border-collapse: collapse; width: 100%; margin-top: 20px; }
+    th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+    th { background-color: #f2f2f2; }
+  </style>
+</head>
+<body>
+
+  <h1>2024年HORIZON-MSCA博士网络项目名单</h1>
+
+  <input type="text" id="keyword" onkeyup="filterTable()" placeholder="请输入关键词过滤...">
+  <input type="text" id="countryFilter" onkeyup="filterTable()" placeholder="请输入国家代码（如DE、NL）过滤...">
+  <button onclick="exportToExcel()">导出为Excel</button>
+
+  <table id="projectTable">
+    <thead>
+      <tr>
+        <th>编号</th>
+        <th>缩写</th>
+        <th>标题</th>
+        <th>机构</th>
+        <th>国家</th>
+        <th>类型</th>
+      </tr>
+    </thead>
+    <tbody id="tableBody">
+      <!-- JS 自动填充 -->
+    </tbody>
+  </table>
+
+  <script>
+    const projects = [
+      {"Project Number":"101226357","Acronym":"HaloVerse","Title":"推进欧洲新一代可持续之路 —— 扩展酶卤化化学宇宙","Institution":"格罗宁根大学","Country":"NL","Type":"Joint Doctorate"},
+      {"Project Number":"101226997","Acronym":"SPACER","Title":"改善氧化还原流电池电流密度与能效的多孔电极结构设计","Institution":"弗劳恩霍夫研究所","Country":"DE","Type":"Doctoral Network"},
+      {"Project Number":"101226907","Acronym":"MICROSUNSET","Title":"可持续营养饮食中的微量营养素","Institution":"丹麦技术大学","Country":"DK","Type":"Doctoral Network"},
+      {"Project Number":"101226960","Acronym":"ELEGANCE","Title":"多参数酶与生物工艺设计的机器学习","Institution":"丹麦技术大学","Country":"DK","Type":"Doctoral Network"}
+      // 可以继续添加更多项目信息
+    ];
+
+    const tableBody = document.getElementById('tableBody');
+
+    function renderTable(data) {
+      tableBody.innerHTML = '';
+      data.forEach(p => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${p["Project Number"]}</td>
+          <td>${p["Acronym"]}</td>
+          <td><a href="#project-${p["Project Number"]}">${p["Title"]}</a></td>
+          <td>${p["Institution"]}</td>
+          <td>${p["Country"]}</td>
+          <td>${p["Type"]}</td>
+        `;
+        tableBody.appendChild(row);
+      });
+    }
+
+    function filterTable() {
+      const keyword = document.getElementById("keyword").value.toLowerCase();
+      const country = document.getElementById("countryFilter").value.toUpperCase();
+      const filtered = projects.filter(p => 
+        (p["Title"].toLowerCase().includes(keyword) || 
+         p["Acronym"].toLowerCase().includes(keyword) || 
+         p["Institution"].toLowerCase().includes(keyword)) &&
+        (country === "" || p["Country"] === country)
+      );
+      renderTable(filtered);
+    }
+
+    function exportToExcel() {
+      const worksheet = XLSX.utils.json_to_sheet(projects);
+      const workbook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(workbook, worksheet, "MSCA Projects");
+      XLSX.writeFile(workbook, "MSCA_2024_Projects.xlsx");
+    }
+
+    // 初始加载
+    renderTable(projects);
+  </script>
+
+</body>
+</html>
