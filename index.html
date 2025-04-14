@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>2025年HORIZON-MSCA博士网络项目-by-定宇错对</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 40px; }
+    input { margin: 10px; padding: 8px; width: 300px; }
+    button { padding: 10px 20px; margin-left: 10px; }
+    table { border-collapse: collapse; width: 100%; margin-top: 20px; }
+    th, td { border: 1px solid #ccc; padding: 8px; text-align: left;font-size: 13px; }
+    th { background-color: #f2f2f2; }
+  </style>
+</head>
+<body>
+
+  <h1>2025年HORIZON-MSCA博士网络项目名单-by-定宇错对</h1>
+
+  <input type="text" id="keyword" onkeyup="filterTable()" placeholder="请输入关键词过滤...">
+  <input type="text" id="countryFilter" onkeyup="filterTable()" placeholder="请输入国家代码（如DE、NL）过滤...">
+  <button onclick="exportToExcel()">导出为Excel</button>
+
+  <table id="projectTable">
+    <thead>
+      <tr>
+        <th>编号</th>
+        <th>缩写</th>
+        <th>标题</th>
+        <th>机构</th>
+        <th>国家</th>
+        <th>类型</th>
+      </tr>
+    </thead>
+    <tbody id="tableBody">
+      <!-- JS 自动填充 -->
+    </tbody>
+  </table>
+
+  <script>
+    const projects = [
+      
+	{"Project Number":"101226357","Acronym":"HaloVerse","Title":"为可持续发展培养欧洲新一代人才 - 拓展酶促卤化化学的宇宙","Institution":"格罗宁根大学","Country":"NL","Type":"Joint Doctorate"},
+
+	{"Project Number":"101226997","Acronym":"SPACER","Title":"构建多孔电极架构以提高氧化还原液流电池的电流密度和能量效率","Institution":"弗劳恩霍夫应用研究促进协会","Country":"DE","Type":"Doctoral Network"},
+
+	{"Project Number":"101226907","Acronym":"MICROSUNSET","Title":"可持续营养饮食中的微量营养素","Institution":"丹麦技术大学","Country":"DK","Type":"Doctoral Network"},
+
+	{"Project Number":"101226960","Acronym":"ELEGANCE","Title":"多参数酶与生物工艺设计的机器学习","Institution":"丹麦技术大学","Country":"DK","Type":"Doctoral Network"},
+
+	{"Project Number":"101226058","Acronym":"LowDataML","Title":"可持续化学科学的低数据机器学习","Institution":"FARM-ID - 药学院研究与发展协会","Country":"PT","Type":"Doctoral Network"},
+
+	{"Project Number":"101226412","Acronym":"CanGoNano","Title":"糖纳米材料作为精确工具揭示抗原呈递细胞对抗癌症的关键见解的培训网络","Institution":"佛罗伦萨大学","Country":"IT","Type":"Doctoral Network"},
+
+	{"Project Number":"101226731","Acronym":"HEAL-4WARD","Title":"HEAL-4WARD - 伤口感染高级护理和快速诊断博士网络","Institution":"罗马萨皮恩扎大学","Country":"IT","Type":"Doctoral Network"},
+
+	{"Project Number":"101226400","Acronym":"MIPrecise","Title":"可持续精准医疗的稳健生物标志物结合剂、探针和检测方法","Institution":"马尔默大学","Country":"SE","Type":"Doctoral Network"},
+
+	{"Project Number":"101227436","Acronym":"WATER","Title":"膜传输中界面水的博士网络","Institution":"林茨大学","Country":"AT","Type":"Doctoral Network"},
+
+	{"Project Number":"101227653","Acronym":"UP2MEM","Title":"材料上循环到制造水和食品行业的先进膜技术：走向零废物和循环经济","Institution":"塞维利亚大学","Country":"ES","Type":"Industrial Doctorate"},
+
+	{"Project Number":"101227379","Acronym":"BIOHYBRITE","Title":"使用混合DNA:RNA:蛋白质纳米技术解码和设计生物分子系统","Institution":"慕尼黑路德维希-马克西米利安大学","Country":"DE","Type":"Doctoral Network"},
+
+	{"Project Number":"101227456","Acronym":"ON-TRACT","Title":"寡核苷酸技术用于癌症治疗的快速发展","Institution":"南安普顿大学","Country":"UK","Type":"Doctoral Network"},
+
+	{"Project Number":"101223893","Acronym":"EVADERE","Title":"增强抗抗菌素耐药性疫苗设计","Institution":"米兰-比可卡大学","Country":"IT","Type":"Doctoral Network"},
+
+	{"Project Number":"101227378","Acronym":"INTROS","Title":"走向创新的外科和烧伤伤口治疗和管理","Institution":"MYBIOTECH GMBH","Country":"DE","Type":"Industrial Doctorate"},
+
+	{"Project Number":"101226468","Acronym":"EI","Title":"电气化-它","Institution":"马德里自治大学","Country":"ES","Type":"Doctoral Network"},
+
+	{"Project Number":"101227450","Acronym":"LIPAGG","Title":"从生物物理化学到细胞生物学：解密脂质在蛋白质聚集的毒性和扩散中的作用","Institution":"法国国家科学研究中心","Country":"FR","Type":"Doctoral Network"},
+
+	{"Project Number":"101227458","Acronym":"CHIRALNANOMAT","Title":"手性纳米簇材料","Institution":"弗罗茨瓦夫工业大学","Country":"PL","Type":"Doctoral Network"},
+
+	{"Project Number":"101227305","Acronym":"GLYCOCALYX","Title":"哺乳动物糖萼的自组织和屏障功能 - 跨学科和跨境培训糖科学家以激发新方法、理解和生物医学应用","Institution":"利兹大学","Country":"UK","Type":"Doctoral Network"},
+
+	{"Project Number":"101226229","Acronym":"ENERPOL","Title":"使用智能合约和政策降低家庭能源相关风险和不平等","Institution":"挪威商学院","Country":"NO","Type":"Doctoral Network"},
+
+	{"Project Number":"101226455","Acronym":"HEPARD","Title":"使用真实世界数据进行卫生经济政策分析","Institution":"杜伊斯堡-埃森大学","Country":"DE","Type":"Doctoral Network"},
+
+	{"Project Number":"101226674","Acronym":"MINDnet","Title":"神经形态计算和信号处理培训网络","Institution":"丹麦技术大学","Country":"DK","Type":"Doctoral Network"},
+
+	{"Project Number":"101226678","Acronym":"PROSPER","Title":"培训工业规模光反应器知识型设计原则的下一代专家","Institution":"乌尔姆大学","Country":"DE","Type":"Industrial Doctorate"},
+
+	{"Project Number":"101227338","Acronym":"DIAMOND","Title":"分散式关键基础设施资产监测和状况评估","Institution":"都柏林大学","Country":"IE","Type":"Doctoral Network"},
+
+	{"Project Number":"101227573","Acronym":"SAILING","Title":"安全AI和数字孪生赋能智能能源互联网","Institution":"埃克塞特大学","Country":"UK","Type":"Doctoral Network"},
+
+	{"Project Number":"101226602","Acronym":"CUSTOM","Title":"为骨科植入物定制多孔结构和先进测试","Institution":"鲁汶天主教大学","Country":"BE","Type":"Doctoral Network"},
+
+	{"Project Number":"101227691","Acronym":"ElectronsMatter","Title":"为电子束增材制造定制的钨和钨合金的科学基础","Institution":"瑞典皇家理工学院","Country":"SE","Type":"Doctoral Network"},
+
+	{"Project Number":"101226363","Acronym":"UNVEIL","Title":"历史文物的统一无损评估","Institution":"法国国家科学研究中心","Country":"FR","Type":"Doctoral Network"},
+
+	{"Project Number":"101226375","Acronym":"MetaTune","Title":"使用反向设计的超表面进行可重构性","Institution":"瓦伦西亚理工大学","Country":"ES","Type":"Doctoral Network"},
+
+	{"Project Number":"101226927","Acronym":"GenAIDE","Title":"工业设计工程的生成式AI","Institution":"本田研究所欧洲有限公司","Country":"DE","Type":"Industrial Doctorate"},
+
+	{"Project Number":"101227649","Acronym":"ENDURE","Title":"启用规模化生产耐用天然纤维组件的博士网络","Institution":"丹麦技术大学","Country":"DK","Type":"Doctoral Network"},
+
+	{"Project Number":"101227206","Acronym":"SCARPA","Title":"可持续和循环鞋类培训计划","Institution":"根特大学","Country":"BE","Type":"Joint Doctorate"},
+
+	{"Project Number":"101227012","Acronym":"PRIME LEAP","Title":"整合等离子体和单原子催化的下一代强化化学过程","Institution":"米兰理工大学","Country":"IT","Type":"Doctoral Network"},
+
+	{"Project Number":"101227547","Acronym":"COMBINE","Title":"工业和发电中脱碳的耦合问题","Institution":"赫尔姆霍兹德累斯顿-罗森多夫研究中心","Country":"DE","Type":"Doctoral Network"},
+
+	{"Project Number":"101227628","Acronym":"CMT-DN","Title":"致力于阐明脑血管病理机制的微型机器","Institution":"戈尔韦大学","Country":"IE","Type":"Doctoral Network"},
+
+	{"Project Number":"101227121","Acronym":"RENOVATE","Title":"骨关节炎早期干预的再生工程创新","Institution":"大加那利岛拉斯帕尔马斯大学","Country":"ES","Type":"Doctoral Network"},
+
+	{"Project Number":"101227604","Acronym":"ANCHOR","Title":"使用和谐光学和无线技术的高级网络连接","Institution":"斯特拉斯克莱德大学","Country":"UK","Type":"Doctoral Network"},
+
+	{"Project Number":"101226371","Acronym":"GreenFieldData","Title":"物联网数据管理和分析用于可持续农业","Institution":"法国国家农业、食品和环境研究所","Country":"FR","Type":"Joint Doctorate"},
+
+	{"Project Number":"101227218","Acronym":"QUESTING","Title":"设计、管理和调试量子网络","Institution":"南东技术大学","Country":"IE","Type":"Doctoral Network"},
+
+	{"Project Number":"101227219","Acronym":"RESTORATIVE","Title":"电网规模能源存储：加速绿色转型的必要条件","Institution":"丹麦技术大学","Country":"DK","Type":"Doctoral Network"},
+
+	{"Project Number":"101226431","Acronym":"Print4Life","Title":"Print4Life – 未来生物材料和组织增材制造的高级研究培训","Institution":"乌普萨拉大学","Country":"SE","Type":"Doctoral Network"},
+
+	{"Project Number":"101227540","Acronym":"DT-HATS","Title":"运输系统发动机中氢气和氨气注入和点火的数字孪生","Institution":"佩鲁贾大学","Country":"IT","Type":"Doctoral Network"},
+
+	{"Project Number":"101226456","Acronym":"MLCARE","Title":"个性化医学的机器学习计算进展","Institution":"马德里卡洛斯三世大学","Country":"ES","Type":"Doctoral Network"},
+
+	{"Project Number":"101227584","Acronym":"SPARE","Title":"负责任的太空增长：新兴低地球轨道（LEO）经济的可持续性、弹性和竞争力","Institution":"赫瑞瓦特大学","Country":"UK","Type":"Industrial Doctorate"},
+
+	{"Project Number":"101225914","Acronym":"REUNATECH","Title":"欧洲高科技产业和关键基础设施的NATECH风险管理和弹性","Institution":"亚琛工业大学","Country":"DE","Type":"Doctoral Network"},
+
+	{"Project Number":"101226234","Acronym":"ENGAGE","Title":"培养欧洲未来工程师用于下一代移动工作机械：AI驱动的可持续性、生产力和安全性","Institution":"坦佩雷高校基金会","Country":"FI","Type":"Industrial Doctorate"},
+
+	{"Project Number":"101226856","Acronym":"SureROB","Title":"用于绿色制造的可持续和可重构机器人","Institution":"达姆施塔特工业大学","Country":"DE","Type":"Industrial Doctorate"},
+
+	{"Project Number":"101227034","Acronym":"WildBotics","Title":"使用机器人在野外自主采样用于自然保护","Institution":"布鲁诺·克斯勒基金会","Country":"IT","Type":"Doctoral Network"},
+
+	{"Project Number":"101227175","Acronym":"Met2Adapt","Title":"高级超材料和超结构用于适应性、弹性和可持续可再生能源发电厂的欧洲博士网络","Institution":"国家麦索维恩理工学院","Country":"EL","Type":"Doctoral Network"},
+
+	{"Project Number":"101227389","Acronym":"SecReSy4You","Title":"关键信息物理系统安全和弹性的年轻研究人员网络","Institution":"塞浦路斯大学","Country":"CY","Type":"Doctoral Network"},
+
+	{"Project Number":"101227453","Acronym":"ELEVATE","Title":"基于事件的学习、视觉和控制用于具身系统","Institution":"鲁汶天主教大学","Country":"BE","Type":"Doctoral Network"},
+
+	{"Project Number":"101227512","Acronym":"CoRDS","Title":"自信的数据驱动决策支持","Institution":"比勒费尔德大学","Country":"DE","Type":"Doctoral Network"},
+
+	{"Project Number":"101227706","Acronym":"ThromboRisk","Title":"从细胞到系统：开创多层次血栓风险预测模型","Institution":"埃因霍温技术大学","Country":"NL","Type":"Doctoral Network"},
+
+	{"Project Number":"101227277","Acronym":"E-Sailors","Title":"电动太阳风帆博士","Institution":"塔尔图大学","Country":"EE","Type":"Doctoral Network"},
+
+	{"Project Number":"101227080","Acronym":"SPRING","Title":"未来大规模关键基础设施弹性专家博士网络","Institution":"奥尔良大学","Country":"FR","Type":"Doctoral Network"},
+
+	{"Project Number":"101227683","Acronym":"WindConnect","Title":"风电场控制和整合到部门耦合电力系统","Institution":"华威大学","Country":"UK","Type":"Doctoral Network"},
+
+	{"Project Number":"101227010","Acronym":"SiCPIC","Title":"碳化硅光子集成电路培训网络","Institution":"丹麦技术大学","Country":"DK","Type":"Doctoral Network"},
+
+	{"Project Number":"101227146","Acronym":"X-CELERATE","Title":"培训下一代动态X射线成像和智能新兴材料研究专家","Institution":"安特卫普大学","Country":"BE","Type":"Doctoral Network"},
+
+	{"Project Number":"101227592","Acronym":"SLICE","Title":"太空发射对气候和环境的影响","Institution":"德累斯顿工业大学","Country":"DE","Type":"Doctoral Network"},
+
+	{"Project Number":"101227315","Acronym":"NEWTON","Title":"融合无线-光学配置的新型技术","Institution":"IQUADRAT INFORMATICA SL","Country":"ES","Type":"Doctoral Network"},
+
+	{"Project Number":"101225775","Acronym":"BRAINET","Title":"用于基于干扰的脑刺激的网络分布式神经接口","Institution":"弗莱堡大学医院","Country":"DE","Type":"Doctoral Network"},
+
+	{"Project Number":"101226463","Acronym":"REACT","Title":"自感知神经形态架构：安全性、可靠性和能效","Institution":"格罗宁根大学","Country":"NL","Type":"Doctoral Network"},
+
+	{"Project Number":"101226362","Acronym":"TrackAF","Title":"心房心肌病作为更好的心房颤动管理关键的转化研究和培训","Institution":"卡尔斯鲁厄理工学院","Country":"DE","Type":"Doctoral Network"},
+
+	{"Project Number":"101227712","Acronym":"ABHSSYS","Title":"用于静音系统的声学黑洞","Institution":"勒芒大学","Country":"FR","Type":"Doctoral Network"},
+
+	{"Project Number":"101225642","Acronym":"BRIDGE-AI","Title":"由人工智能驱动的全生命周期脑疾病监测","Institution":"阿尔托大学基金会","Country":"FI","Type":"Doctoral Network"},
+
+	{"Project Number":"101227354","Acronym":"I3waterS","Title":"智能、创新、综合水系统","Institution":"加泰罗尼亚理工大学","Country":"ES","Type":"Doctoral Network"},
+
+	{"Project Number":"101227310","Acronym":"CAVECORE","Title":"开放式环境中认知机器人的连续、自动验证和评估","Institution":"不莱梅大学","Country":"DE","Type":"Doctoral Network"},
+
+	{"Project Number":"101226860","Acronym":"GENOME","Title":"6G开放管理的生成和连接智能","Institution":"加泰罗尼亚I2CAT互联网和数字创新私人基金会","Country":"ES","Type":"Doctoral Network"},
+
+	{"Project Number":"101227596","Acronym":"MEDALLOY","Title":"医疗设备应用的先进镍钛合金","Institution":"戈尔韦大学","Country":"IE","Type":"Industrial Doctorate"},
+
+	{"Project Number":"101226491","Acronym":"SpecX","Title":"频谱分析即服务博士网络","Institution":"鲁汶天主教大学","Country":"BE","Type":"Doctoral Network"},
+
+	{"Project Number":"101226611","Acronym":"FERNS","Title":"生态友好设计工具、材料、制造技术的整体整合，用于负责任地共同创建未来可持续集成电子系统","Institution":"科克大学","Country":"IE","Type":"Doctoral Network"},
+
+	{"Project Number":"101226624","Acronym":"GREET","Title":"主动信息物理生态环境中针对被解释者的生成解释性和透明度","Institution":"爱丁堡纳皮尔大学","Country":"UK","Type":"Doctoral Network"},
+
+	{"Project Number":"101226760","Acronym":"MAGNIFY","Title":"推进能源转换技术：现代电力电子中的高频磁性材料","Institution":"鲁汶天主教大学","Country":"BE","Type":"Doctoral Network"},
+
+	{"Project Number":"101226708","Acronym":"GENIUS","Title":"能源地质结构整合的博士网络：建筑、基础设施和地下储存","Institution":"爱丁堡大学","Country":"UK","Type":"Doctoral Network"},
+
+	{"Project Number":"101226672","Acronym":"E-CoRe","Title":"通过可逆性实现能效计算","Institution":"博洛尼亚大学","Country":"IT","Type":"Doctoral Network"},
+
+	{"Project Number":"101226772","Acronym":"SUS-BIOCROP","Title":"开发增强作物恢复力和产量的可持续生物复合材料的博士网络","Institution":"巴斯克大学","Country":"ES","Type":"Joint Doctorate"},
+
+	{"Project Number":"101226482","Acronym":"FairCFD","Title":"走向可持续计算流体动力学","Institution":"图卢兹国立理工学院","Country":"FR","Type":"Doctoral Network"},
+
+	{"Project Number":"101226348","Acronym":"CLIMES","Title":"了解和预测全球变化下气候极端事件的影响","Institution":"乌普萨拉大学","Country":"SE","Type":"Doctoral Network"},
+
+	{"Project Number":"101226989","Acronym":"CHARM","Title":"通过弹性方法保护文化遗产建筑和遗址：水文气候因素","Institution":"塞尔吉-巴黎大学","Country":"FR","Type":"Doctoral Network"},
+
+	{"Project Number":"101226853","Acronym":"INCEPTION","Title":"激励新的博士候选人赋能可互换和优化的锌基电池和超级电容器的生产","Institution":"阿威罗大学","Country":"PT","Type":"Doctoral Network"},
+
+	{"Project Number":"101226305","Acronym":"B3PO","Title":"更好的生物基聚合物网络","Institution":"格拉茨技术大学","Country":"AT","Type":"Joint Doctorate"},
+
+	{"Project Number":"101227210","Acronym":"UPsYDe","Title":"理解和推迟酵母死亡以改善生产","Institution":"瓦赫宁根大学","Country":"NL","Type":"Doctoral Network"},
+
+	{"Project Number":"101225857","Acronym":"DyeAnotherWay","Title":"重新思考染色作为可持续织物和食品加工的基础和应用研究培训：开发用于经典和创新应用的新型生物染料","Institution":"维也纳技术大学","Country":"AT","Type":"Doctoral Network"},
+
+	{"Project Number":"101226628","Acronym":"FutureForests","Title":"欧洲森林对全球变化的响应：通过下一代科学家网络在旗舰操作实验之间建立协同效应","Institution":"伯明翰大学","Country":"UK","Type":"Doctoral Network"},
+
+	{"Project Number":"101226312","Acronym":"SwitchFloc","Title":"通过生物絮凝技术提升欧洲水产养殖的可持续性","Institution":"瓦伦西亚理工大学","Country":"ES","Type":"Doctoral Network"},
+
+	{"Project Number":"101226728","Acronym":"EXODOCS","Title":"火星漫游者罗莎琳德·富兰克林博士网络","Institution":"巴利亚多利德大学","Country":"ES","Type":"Doctoral Network"},
+
+	{"Project Number":"101227208","Acronym":"GRAIL","Title":"来自大气的伽马辐射用于调查和学习","Institution":"丹麦技术大学","Country":"DK","Type":"Doctoral Network"},
+
+	{"Project Number":"101226422","Acronym":"MiningBrines","Title":"多学科整合和地热卤水可持续性增加和多资源valorization网络","Institution":"UNILASALLE理工学院","Country":"FR","Type":"Doctoral Network"},
+
+	{"Project Number":"101226206","Acronym":"REALISE","Title":"桥接火成岩石学和机器学习用于科学和社会：发展火山灾害评估和关键原材料经济的新技能","Institution":"佩鲁贾大学","Country":"IT","Type":"Doctoral Network"},
+
+	{"Project Number":"101226270","Acronym":"IndiBrain","Title":"表征脑可塑性和动态的个体差异以帮助确保有效和可持续的卫生保健","Institution":"格罗宁根学术医院","Country":"NL","Type":"Doctoral Network"},
+
+	{"Project Number":"101226474","Acronym":"STEM-CORE","Title":"角膜上皮再生干细胞治疗开发","Institution":"拉德堡大学基金会","Country":"NL","Type":"Doctoral Network"},
+
+	{"Project Number":"101226862","Acronym":"INTEGRATE","Title":"INTEGRATE - 跨学科培训、教育和发展关于迷幻药的应用和治疗专业知识的研究网络","Institution":"格罗宁根学术医院","Country":"NL","Type":"Doctoral Network"},
+
+	{"Project Number":"101227308","Acronym":"INTRABRAIN","Title":"纳米平台和溶瘤病毒用于新型癌症免疫疗法策略","Institution":"鹿特丹伊拉斯姆斯大学医学中心","Country":"NL","Type":"Doctoral Network"},
+
+	{"Project Number":"101226686","Acronym":"BIO-MICRO","Title":"BIO-MICRO：微量营养素优化中的生物标志物和干预结果","Institution":"阿姆斯特丹UMC基金会","Country":"NL","Type":"Doctoral Network"},
+
+	{"Project Number":"101226670","Acronym":"INT2ACT","Title":"用于分析、检测和治疗的创新核酸技术","Institution":"乌迪内大学","Country":"IT","Type":"Doctoral Network"},
+
+	{"Project Number":"101226720","Acronym":"RAPTORplus","Title":"癌症实时自适应粒子疗法 - 通过解剖加生物学适应实现个性化","Institution":"赫尔姆霍兹德累斯顿-罗森多夫研究中心","Country":"DE","Type":"Doctoral Network"},
+
+	{"Project Number":"101226793","Acronym":"SUPER","Title":"人类世中实现公平和韧性的可持续体育和身体活动","Institution":"格拉斯哥卡利多尼亚大学","Country":"UK","Type":"Doctoral Network"},
+
+	{"Project Number":"101227567","Acronym":"iSTRIDE","Title":"留置装置相关感染病理学和预防研究的跨部门培训","Institution":"鲁汶天主教大学","Country":"BE","Type":"Doctoral Network"},
+
+	{"Project Number":"101226425","Acronym":"MetaExplore","Title":"超高通量探索宏基因组序列空间以发现和工程新型生物催化剂和生物活性化合物","Institution":"剑桥大学","Country":"UK","Type":"Doctoral Network"},
+
+	{"Project Number":"101226393","Acronym":"NEUROMECH","Title":"细胞机械应力在神经退行性疾病发病机制中的作用","Institution":"拉奎拉大学","Country":"IT","Type":"Doctoral Network"},
+
+	{"Project Number":"101225682","Acronym":"METAMIC 3","Title":"基于宏蛋白质组的微生物组管理在同一健康背景下的杠杆作用","Institution":"莱布尼茨分析科学研究所","Country":"DE","Type":"Doctoral Network"},
+
+	{"Project Number":"101227217","Acronym":"PRIMER","Title":"通过创新引发策略增强气候适应性作物","Institution":"法兰克福歌德大学","Country":"DE","Type":"Doctoral Network"},
+
+	{"Project Number":"101227259","Acronym":"UNLIMITED","Title":"理解脂质免疫代谢以治疗疾病","Institution":"美因茨大学医学院","Country":"DE","Type":"Doctoral Network"},
+
+	{"Project Number":"101225380","Acronym":"LipiBRIGHT","Title":"脂质作为新疾病见解和改进治疗之间的有希望的桥梁","Institution":"马斯特里赫特大学","Country":"NL","Type":"Doctoral Network"},
+
+	{"Project Number":"101226536","Acronym":"AGILE","Title":"植物细胞时空成像下一代科学家的高级培训","Institution":"法国国家科学研究中心","Country":"FR","Type":"Doctoral Network"},
+
+	{"Project Number":"101227148","Acronym":"Endotrain","Title":"数字内分泌学培训网络以对抗肾上腺疾病","Institution":"卑尔根大学","Country":"NO","Type":"Doctoral Network"},
+
+	{"Project Number":"101226717","Acronym":"SHIELD","Title":"治疗植入物相关感染和增强设备寿命的策略","Institution":"哥德堡大学","Country":"SE","Type":"Doctoral Network"},
+
+	{"Project Number":"101227159","Acronym":"LifeLUNG","Title":"通过创新体外灌注基因治疗改善肺移植受者的预期寿命","Institution":"鲁汶天主教大学","Country":"BE","Type":"Doctoral Network"},
+
+	{"Project Number":"101226289","Acronym":"BUG-ID","Title":"使用石墨烯的感染诊断生物传感器","Institution":"丹麦技术大学","Country":"DK","Type":"Doctoral Network"},
+
+	{"Project Number":"101226609","Acronym":"StraDiVarious","Title":"菌株、诊断和变体博士网络","Institution":"赫尔辛基大学","Country":"FI","Type":"Doctoral Network"},
+
+	{"Project Number":"101225248","Acronym":"BioTransform","Title":"为新型食品生物活性物质绘制未知的人类代谢图谱","Institution":"安特卫普大学","Country":"BE","Type":"Doctoral Network"},
+
+	{"Project Number":"101226364","Acronym":"spaXio","Title":"免疫肿瘤学中的空间交叉对话","Institution":"萨尔茨堡大学","Country":"AT","Type":"Joint Doctorate"},
+
+	{"Project Number":"101226544","Acronym":"EvoMG-DN","Title":"进化医学基因组学博士网络","Institution":"基因组调控中心基金会","Country":"ES","Type":"Doctoral Network"},
+
+	{"Project Number":"101227124","Acronym":"VISI-ON-BRAIN","Title":"脑疾病尖端人体体外和体内计算生物医学工具","Institution":"巴塞罗那大学","Country":"ES","Type":"Doctoral Network"},
+
+	{"Project Number":"101227384","Acronym":"IGNITION","Title":"抗IgLON5疾病：从神经炎症到神经退行性病变","Institution":"巴塞罗那临床研究基金会-奥古斯特·皮·索涅尔生物医学研究所","Country":"ES","Type":"Doctoral Network"},
+
+	{"Project Number":"101226601","Acronym":"EDICT","Title":"促进临床试验中的公平、多样性和包容性","Institution":"戈尔韦大学","Country":"IE","Type":"Doctoral Network"},
+
+	{"Project Number":"101226733","Acronym":"EURECA","Title":"欧洲癌症表观转录组学学院","Institution":"鹿特丹伊拉斯姆斯大学医学中心","Country":"NL","Type":"Doctoral Network"},
+
+	{"Project Number":"101227645","Acronym":"FrameBio","Title":"生物解决方案的多尺度框架","Institution":"丹麦技术大学","Country":"DK","Type":"Doctoral Network"},
+
+	{"Project Number":"101226977","Acronym":"REMOD-HEALING","Title":"靶向皮肤伤口中的细胞外基质重塑以促进更好的愈合","Institution":"法国国家科学研究中心","Country":"FR","Type":"Doctoral Network"},
+
+	{"Project Number":"101227102","Acronym":"MenoBrain","Title":"绝经期女性的脑健康","Institution":"耶拿大学医院","Country":"DE","Type":"Doctoral Network"},
+
+	{"Project Number":"101227725","Acronym":"ACHILLES","Title":"在改善淋巴瘤和白血病生存率的挑战中取得进展","Institution":"约瑟夫·卡雷拉斯抗白血病研究所基金会","Country":"ES","Type":"Doctoral Network"},
+
+    {"Project Number":"101227009","Acronym":"ProtAIomics","Title":"整合人工智能到蛋白质组学的欧洲培训网络：从数据获取到转化应用","Institution":"基因组调控中心基金会","Country":"ES","Type":"Doctoral Network"},
+    {"Project Number":"101227105","Acronym":"HER-CARE","Title":"遗传性和早发性乳腺癌：综合个性化评估、早期风险评估和临床管理","Institution":"荷兰癌症研究所-安东尼·范·列文霍克医院基金会","Country":"NL","Type":"Doctoral Network"},
+{"Project Number":"101226343","Acronym":"ALMOA","Title":"挑战性应用的大规模、多层次和分层优化进展","Institution":"克拉根福大学","Country":"AT","Type":"Doctoral Network"},
+{"Project Number":"101227508","Acronym":"MGICIAN","Title":"用于高效固态制冷的镁合金","Institution":"德累斯顿莱布尼茨固体和材料研究所","Country":"DE","Type":"Doctoral Network"},
+{"Project Number":"101227522","Acronym":"QuRIOUS","Title":"未来科学家的量子研究和光学时钟创新","Institution":"阿姆斯特丹大学","Country":"NL","Type":"Doctoral Network"},
+{"Project Number":"101226840","Acronym":"ORBIS","Title":"基于轨道的电子学","Institution":"纳米科学研究合作中心协会CIC NANOGUNE","Country":"ES","Type":"Doctoral Network"},
+{"Project Number":"101226599","Acronym":"TRADES","Title":"高级分散工程光栅波导结构的培训和研究","Institution":"斯图加特大学","Country":"DE","Type":"Doctoral Network"},
+{"Project Number":"101226517","Acronym":"FADOS","Title":"掺杂有机半导体的基础和应用","Institution":"海德堡大学","Country":"DE","Type":"Doctoral Network"},
+{"Project Number":"101226887","Acronym":"TRILOGY","Title":"生命和技术的超快手性","Institution":"柏林研究联合会","Country":"DE","Type":"Doctoral Network"},
+{"Project Number":"101224007","Acronym":"PANIONS","Title":"负离子物理和应用","Institution":"哥德堡大学","Country":"SE","Type":"Doctoral Network"},
+{"Project Number":"101226762","Acronym":"CAFE-BIO","Title":"生物系统中涌现的相干分析框架","Institution":"爱丁堡大学","Country":"UK","Type":"Doctoral Network"},
+{"Project Number":"101223894","Acronym":"TheSPIS","Title":"剧院、圣地、表演：互动与可持续性","Institution":"巴勒莫大学","Country":"IT","Type":"Doctoral Network"},
+{"Project Number":"101226709","Acronym":"HUM.AI.N-ACCENT","Title":"弥合人类和人机交互中的沟通差距：口音语音对神经认知机制和社会动态的作用","Institution":"内布里哈大学","Country":"ES","Type":"Doctoral Network"},
+{"Project Number":"101227176","Acronym":"DECADOCS","Title":"博士研究的颓废主义","Institution":"第戎勃艮第大学","Country":"FR","Type":"Joint Doctorate"},
+{"Project Number":"101226906","Acronym":"Gender-InSIGHT","Title":"在不同激素转变期间对性别的生物心理社会影响调查","Institution":"阿姆斯特丹UMC基金会","Country":"NL","Type":"Doctoral Network"},
+{"Project Number":"101226908","Acronym":"EXPLORA","Title":"通过主动探索感知材料、物体和空间","Institution":"吉森大学","Country":"DE","Type":"Doctoral Network"},
+{"Project Number":"101226734","Acronym":"MITIME","Title":"后工业化城市欧洲的迁徙与时间纠缠","Institution":"奥卢大学","Country":"FI","Type":"Doctoral Network"},
+{"Project Number":"101226351","Acronym":"HERITOUR","Title":"加强文化遗产和旅游业之间的协作协同效应","Institution":"鹿特丹伊拉斯姆斯大学","Country":"NL","Type":"Doctoral Network"},
+{"Project Number":"101226472","Acronym":"PALPROX","Title":"史前考古学中小型脊椎动物代理指标","Institution":"人类古生态学和社会进化加泰罗尼亚研究所私人基金会","Country":"ES","Type":"Doctoral Network"},
+{"Project Number":"101226689","Acronym":"TESTAMENT","Title":"普通法传统边缘的遗嘱实践：自由与压迫（约1420-1620年）","Institution":"鲁汶天主教大学","Country":"BE","Type":"Doctoral Network"},
+{"Project Number":"101227351","Acronym":"Digi4Age","Title":"老龄化和数字化社会的未来领导者","Institution":"拉彭兰塔-拉赫蒂理工大学","Country":"FI","Type":"Doctoral Network"},
+{"Project Number":"101227644","Acronym":"EPHEMERAL","Title":"创业与地方：企业家如何管理生命周期中不断发展的关系","Institution":"南丹麦大学","Country":"DK","Type":"Doctoral Network"},
+{"Project Number":"101226735","Acronym":"PacificPeopleForest","Title":"太平洋岛屿的历史、考古和植物学：评估早期欧洲殖民主义对人民和森林的影响","Institution":"西班牙国家研究委员会","Country":"ES","Type":"Doctoral Network"},
+{"Project Number":"101226326","Acronym":"EUARTHURS","Title":"欧洲亚瑟王，中世纪到现代","Institution":"班戈大学","Country":"UK","Type":"Doctoral Network"},
+{"Project Number":"101227352","Acronym":"JustHealth","Title":"建立去殖民化的伦理和治理框架，实现医疗保健中公正和可信赖的人工智能","Institution":"马切拉塔大学","Country":"IT","Type":"Doctoral Network"},
+{"Project Number":"101226660","Acronym":"TRANSCEND","Title":"超越多发性硬化症和自闭症谱系障碍转化研究的局限性 - 谱系、脑相关障碍、患者结果、认知、效果、症状","Institution":"奥胡斯大学","Country":"DK","Type":"Doctoral Network"},
+{"Project Number":"101226419","Acronym":"SOCIAL","Title":"威权法律社会学：来自中亚的见解","Institution":"隆德大学","Country":"SE","Type":"Doctoral Network"},
+{"Project Number":"101227216","Acronym":"RePIM","Title":"重新构想公共利益媒体","Institution":"布鲁塞尔自由大学","Country":"BE","Type":"Doctoral Network"},
+{"Project Number":"101226551","Acronym":"HEALENAE","Title":"非洲和欧洲的健康与环境","Institution":"奥胡斯大学","Country":"DK","Type":"Joint Doctorate"},
+
+    ];
+
+    const tableBody = document.getElementById('tableBody');
+
+    function renderTable(data) {
+      tableBody.innerHTML = '';
+      data.forEach(p => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${p["Project Number"]}</td>
+          <td>${p["Acronym"]}</td>
+          <td><a href="#project-${p["Project Number"]}">${p["Title"]}</a></td>
+          <td>${p["Institution"]}</td>
+          <td>${p["Country"]}</td>
+          <td>${p["Type"]}</td>
+        `;
+        tableBody.appendChild(row);
+      });
+    }
+
+    function filterTable() {
+      const keyword = document.getElementById("keyword").value.toLowerCase();
+      const country = document.getElementById("countryFilter").value.toUpperCase();
+      const filtered = projects.filter(p => 
+        (p["Title"].toLowerCase().includes(keyword) || 
+         p["Acronym"].toLowerCase().includes(keyword) || 
+         p["Institution"].toLowerCase().includes(keyword)) &&
+        (country === "" || p["Country"] === country)
+      );
+      renderTable(filtered);
+    }
+
+    function exportToExcel() {
+      const worksheet = XLSX.utils.json_to_sheet(projects);
+      const workbook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(workbook, worksheet, "MSCA Projects");
+      XLSX.writeFile(workbook, "MSCA_2024_Projects.xlsx");
+    }
+
+    // 初始加载
+    renderTable(projects);
+  </script>
+
+</body>
+</html>
